@@ -38,12 +38,15 @@ public class UITestSwing {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(UITestSwing::createAndShow);
+        SwingUtilities.invokeLater(() -> {
+            setSystemLookAndFeel();
+            JFrame frame = createLoginFrame();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+        });
     }
 
-    private static void createAndShow() {
-        setSystemLookAndFeel();
-
+    static JFrame createLoginFrame() {
         JFrame frame = new JFrame("Login Application");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
@@ -61,10 +64,14 @@ public class UITestSwing {
 
         JLabel userLabel = new JLabel("Username:");
         JTextField userField = new JTextField(15);
+        userField.setName("usernameField");
         JLabel passLabel = new JLabel("Password:");
         JPasswordField passField = new JPasswordField(15);
+        passField.setName("passwordField");
         JButton loginButton = new JButton("Login");
+        loginButton.setName("loginButton");
         JLabel messageLabel = new JLabel(" ");
+        messageLabel.setName("messageLabel");
         messageLabel.setPreferredSize(new Dimension(200, 20));
 
         gbc.gridx = 0;
@@ -110,8 +117,7 @@ public class UITestSwing {
         });
 
         frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+        return frame;
     }
 
     private static void setSystemLookAndFeel() {
